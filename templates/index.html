@@ -3,4 +3,12 @@
         <p>The web server software is running but no content has been added, yet.</p>
         <p>My hostname is {{ansible_hostname}}</p>
         <p>My ip address is {{ansible_eth1.ipv4.address}}</p>
+
+        <p>Machines in this environment
+        <ol>
+            {% for k,v in hostvars.iteritems() %}
+            <li>{{ v.ansible_hostname }} and I am running {{v.ansible_lsb.description}}</li>
+            {% endfor %}
+        </ol>
+        </p>
 </body></html>
