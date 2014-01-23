@@ -1,0 +1,7 @@
+---
+- hosts: all
+  user: vagrant
+  
+  tasks:
+    - name: install etckeeper
+      apt: name=etckeeper state=present
