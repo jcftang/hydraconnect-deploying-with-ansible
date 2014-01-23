@@ -1,7 +1,55 @@
 ---
 - hosts: all
   user: vagrant
+  sudo: True
   
   tasks:
     - name: install etckeeper
       apt: name=etckeeper state=present
+
+    - name: enable the ansible ppa
+      apt_repository: repo="ppa:rquillo/ansible" state=present
+
+    - name: install a list of packages
+      apt: name={{item}} state=present
+      with_items:
+        - ansible
+        - rkhunter
+        - dstat
+
+- hosts: webservers
+  user: vagrant
+  sudo: True
+
+  tasks:
+    - name: install apache2
+      apt: name=apache2 state=present
+
+    - name: ensure apache2 is started and enabled
+      service: name=apache2 state=started enabled=yes
+
+    - name: deploy a dummy index page
+      template: src=templates/index.html dest=/var/www/index.html owner=root group=root mode=0644
+
+- hosts: lbservers
+  user: vagrant
+  sudo: True
+
+  tasks:
+    - name: enable the haproxy ppa
+      apt_repository: repo="ppa:vbernat/haproxy-1.5" state=present
+   
+    - name: install haproxy
+      apt: name=haproxy state=present
+
+    - name: enable haproxy
+      copy: src=files/haproxy dest=/etc/default/haproxy
+      notify: restart haproxy
+
+    - name: deploy haproxy configuration
+      template: src=templates/haproxy.cfg dest=/etc/haproxy/haproxy.cfg backup=yes
+      notify: restart haproxy
+
+  handlers:
+    - name: restart haproxy
+      service: name=haproxy state=restarted

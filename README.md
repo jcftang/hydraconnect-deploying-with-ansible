@@ -14,3 +14,9 @@ To experiment with this example:
    $ vagrant up
    $ source ./hacking/env-setup
    $ ansible-playbook -i hosts.vagrant site.yml
+
+Then try hitting the example loadbalancer and try turning off one of the backend webservers
+
+   $ ab -t 60 -c 10 -n 1000 http://192.168.250.100/
+
+The stats can be viewed at http://192.168.250.100:8080

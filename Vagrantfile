@@ -5,6 +5,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://objects.dri.ie/baseboxes/precise64.box"
 
+  config.cache.auto_detect = true
+
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
     vb.customize ["modifyvm", :id, "--nictype2", "virtio"]
