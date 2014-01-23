@@ -9,14 +9,20 @@ Before you start you will need to install
 * Virtualbox 4.3.x
 * Ansible 1.4.x
 
+If you are using homebrew on a mac,
+
+  $ brew install ansible brew-cask
+  $ brew cask install virtualbox 
+  $ brew cask install vagrant
+
 To experiment with this example:
 
-   $ vagrant up
-   $ source ./hacking/env-setup
-   $ ansible-playbook -i hosts.vagrant site.yml
+  $ vagrant up
+  $ source ./hacking/env-setup
+  $ ansible-playbook -i hosts.vagrant site.yml
 
 Then try hitting the example loadbalancer and try turning off one of the backend webservers
 
-   $ ab -t 60 -c 10 -n 1000 http://192.168.250.100/
+  $ ab -t 60 -c 10 -n 1000 http://192.168.250.100/
 
 The stats can be viewed at http://192.168.250.100:8080
